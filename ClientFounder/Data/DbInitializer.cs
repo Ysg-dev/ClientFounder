@@ -1,4 +1,5 @@
 ﻿using ClientFounder.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClientFounder.Data;
 
@@ -6,29 +7,55 @@ public static class DbInitializer
 {
     public static void Seed(ApplicationDbContext context)
     {
-        if (context.Clients.Any()) return;
+        if (context.Clients.Any() || context.Founders.Any())
+            return;
 
-        var client1 = new Client
-        {
-            INN = 123456789012,
-            Name = "ИП Иванов Иван",
-            Type = ClientType.IndividualEntrepreneur,
-            Founders = new List<Founder>()
-        };
+        var now = DateTime.UtcNow;
 
-        var client2 = new Client
+        var clients = new List<Client>
         {
-            INN = 112233445566,
-            Name = "ООО Ромашка",
-            Type = ClientType.LegalEntity,
-            Founders = new List<Founder>
+            new Client
             {
-                new Founder { INN = 998877665544, FullName = "Петров Петр Петрович" },
-                new Founder { INN = 776655443322, FullName = "Сидоров Сидор Сидорович" }
+                INN = 123321123321,
+                Name = "Камыш",
+                Type = ClientType.IndividualEntrepreneur,
+                CreatedAt = now,
+                UpdatedAt = now
+            },
+            new Client
+            {
+                INN = 999999999999,
+                Name = "Машины",
+                Type = ClientType.IndividualEntrepreneur,
+                CreatedAt = now,
+                UpdatedAt = now
             }
         };
 
-        context.Clients.AddRange(client1, client2);
+        context.Clients.AddRange(clients);
+        context.SaveChanges(); 
+
+        var founders = new List<Founder>
+        {
+            new Founder
+            {
+                INN = 123321123321,
+                FullName = "Александров А А",
+                ClientId = clients[0].Id,
+                CreatedAt = now,
+                UpdatedAt = now
+            },
+            new Founder
+            {
+                INN = 123321123321,
+                FullName = "Максимов Алексей Алексеевич",
+                ClientId = clients[1].Id,
+                CreatedAt = now,
+                UpdatedAt = now
+            }
+        };
+
+        context.Founders.AddRange(founders);
         context.SaveChanges();
     }
 }

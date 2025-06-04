@@ -21,6 +21,7 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     
+    DbInitializer.Seed(context);
 }
 
 if (app.Environment.IsDevelopment())
@@ -31,7 +32,6 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "ClientFounder API v1");
         c.RoutePrefix = string.Empty;
     });
-
 }
 
 app.UseHttpsRedirection();
