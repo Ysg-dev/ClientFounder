@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ClientFounder;
-using ClientFounder.Data;
+﻿using ClientFounder.Data;
 using ClientFounder.Models;
 using ClientFounder.Models.Dtos;
 using ClientFounder.Models.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 
 namespace ClientFounder.Tests
 {

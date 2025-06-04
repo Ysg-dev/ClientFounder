@@ -1,5 +1,4 @@
 ﻿using ClientFounder.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ClientFounder.Data;
 

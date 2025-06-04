@@ -5,10 +5,6 @@ using ClientFounder.Models;
 using ClientFounder.Models.Dtos;
 using ClientFounder.Models.DTOs;
 
-
-
-
-
 namespace ClientFounder;
 
 [ApiController]
@@ -42,7 +38,6 @@ public class ClientsController : ControllerBase
         return Ok(client);
     }
 
-
     [HttpPost]
     public async Task<IActionResult> Create(ClientCreateDto dto)
     {
@@ -72,10 +67,6 @@ public class ClientsController : ControllerBase
 
         return CreatedAtAction(nameof(GetById), new { id = client.Id }, client);
     }
-
-
-
-
 
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] ClientUpdateDto updated)
@@ -113,14 +104,12 @@ public class ClientsController : ControllerBase
                 ? new List<Founder> { keepFounder }
                 : new List<Founder>();
         }
-
         
         client.UpdatedAt = DateTime.UtcNow.AddHours(3);
 
         await _context.SaveChangesAsync();
         return Ok(client);
     }
-
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)

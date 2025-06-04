@@ -5,7 +5,6 @@ using ClientFounder.Models;
 using ClientFounder.Models.Dtos;
 using ClientFounder.Models.DTOs;
 
-
 namespace ClientFounder;
 
 [ApiController]
@@ -18,7 +17,6 @@ public class FoundersController : ControllerBase
     {
         _context = context;
     }
-
     
     [HttpPost]
     public async Task<IActionResult> Create(FounderCreateDto dto)
@@ -36,7 +34,6 @@ public class FoundersController : ControllerBase
 
         return CreatedAtAction(nameof(GetById), new { id = founder.Id }, founder);
     }
-
     
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
@@ -48,7 +45,6 @@ public class FoundersController : ControllerBase
         return founder == null ? NotFound() : Ok(founder);
     }
 
-
     [HttpGet()]
     public async Task<IActionResult> GetAll()
     {
@@ -57,19 +53,16 @@ public class FoundersController : ControllerBase
     }
 
 
-
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] FounderUpdateDto dto)
     {
         var founder = await _context.Founders.Include(f => f.Client).FirstOrDefaultAsync(f => f.Id == id);
         if (founder == null)
             return NotFound("Учредитель не найден.");
-
-      
+              
         founder.INN = dto.INN;
         founder.FullName = dto.FullName;
-
-        
+                
         if (dto.ClientId != null && dto.ClientId != founder.ClientId)
         {
             var newClient = await _context.Clients
@@ -78,8 +71,7 @@ public class FoundersController : ControllerBase
 
             if (newClient == null)
                 return BadRequest("Указанный клиент не найден.");
-
-            
+                        
             if (newClient.Type == ClientType.IndividualEntrepreneur && newClient.Founders.Any())
             {
                
@@ -87,7 +79,6 @@ public class FoundersController : ControllerBase
                 existingFounder.ClientId = null;
                 existingFounder.UpdatedAt = DateTime.UtcNow.AddHours(3);
             }
-
           
             if (founder.ClientId != null && founder.ClientId != newClient.Id)
             {
@@ -99,12 +90,10 @@ public class FoundersController : ControllerBase
                     oldClient.Founders.Remove(founder);
                 }
             }
-
             
             founder.ClientId = newClient.Id;
         }
-
-        
+                
         founder.UpdatedAt = DateTime.UtcNow.AddHours(3);
 
         await _context.SaveChangesAsync();
@@ -120,12 +109,9 @@ public class FoundersController : ControllerBase
 
         if (founder == null)
             return NotFound("Учредитель не найден.");
-
-        
-        if (founder.Client != null)
-        {
-            founder.Client = null;
-        }
+                
+        if (founder.Client != null)        
+            founder.Client = null;        
 
         _context.Founders.Remove(founder);
         await _context.SaveChangesAsync();
@@ -142,12 +128,9 @@ public class FoundersController : ControllerBase
 
         if (client == null)
             return NotFound("Клиент не найден.");
-
-       
-        if (client.Type == ClientType.IndividualEntrepreneur && client.Founders.Any())
-        {
-            return BadRequest("ИП может иметь только одного учредителя.");
-        }
+               
+        if (client.Type == ClientType.IndividualEntrepreneur && client.Founders.Any())        
+            return BadRequest("ИП может иметь только одного учредителя.");        
 
         var founder = new Founder
         {
@@ -163,7 +146,4 @@ public class FoundersController : ControllerBase
 
         return CreatedAtAction(nameof(GetById), new { id = founder.Id }, founder);
     }
-
-
-
 }

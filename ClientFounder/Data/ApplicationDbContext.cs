@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Client> Clients { get; set; }
     public DbSet<Founder> Founders { get; set; }
 
+    //конфугуратор связи клиент-учредитель
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
