@@ -6,7 +6,7 @@ public class FounderUpdateDto
 {
     [Required]
     [StringLength(12)]
-    public string INN { get; set; }
+    public long INN { get; set; }
 
     [Required]
     [StringLength(256)]

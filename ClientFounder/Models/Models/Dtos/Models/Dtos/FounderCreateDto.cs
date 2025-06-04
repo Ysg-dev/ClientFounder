@@ -5,7 +5,7 @@ namespace ClientFounder.Models.Dtos;
 public class FounderCreateDto
 {
     [Required, StringLength(12)]
-    public string INN { get; set; }
+    public long INN { get; set; }
 
     [Required, StringLength(256)]
     public string FullName { get; set; }

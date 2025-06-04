@@ -10,7 +10,7 @@ public static class DbInitializer
 
         var client1 = new Client
         {
-            INN = "123456789012",
+            INN = 123456789012,
             Name = "ИП Иванов Иван",
             Type = ClientType.IndividualEntrepreneur,
             Founders = new List<Founder>()
@@ -18,13 +18,13 @@ public static class DbInitializer
 
         var client2 = new Client
         {
-            INN = "112233445566",
+            INN = 112233445566,
             Name = "ООО Ромашка",
             Type = ClientType.LegalEntity,
             Founders = new List<Founder>
             {
-                new Founder { INN = "998877665544", FullName = "Петров Петр Петрович" },
-                new Founder { INN = "776655443322", FullName = "Сидоров Сидор Сидорович" }
+                new Founder { INN = 998877665544, FullName = "Петров Петр Петрович" },
+                new Founder { INN = 776655443322, FullName = "Сидоров Сидор Сидорович" }
             }
         };
 
