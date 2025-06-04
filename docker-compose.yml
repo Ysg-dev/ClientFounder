@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver-cli-founder
+    environment:
+      SA_PASSWORD: "MySuperSafePass@321"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+    networks:
+      - backend-net
+
+volumes:
+  mssql-data:
+
+networks:
+  backend-net:

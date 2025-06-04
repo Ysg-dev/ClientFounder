@@ -7,7 +7,7 @@ public class Founder : BaseEntity
 {
     public int Id { get; set; }
 
-    [Required, StringLength(12)]
+    [Required]
     public long INN { get; set; }
 
     [Required, StringLength(256)]

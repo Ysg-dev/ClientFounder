@@ -8,6 +8,7 @@ using ClientFounder.Models.DTOs;
 
 
 
+
 namespace ClientFounder;
 
 [ApiController]
@@ -27,7 +28,7 @@ public class ClientsController : ControllerBase
         var clients = await _context.Clients.Include(c => c.Founders).ToListAsync();
         return Ok(clients);
     }
-    // метод для просмотра одного конкретного клиента ( по id)
+   
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
@@ -58,16 +59,16 @@ public class ClientsController : ControllerBase
             Type = dto.Type,
             CreatedAt = DateTime.UtcNow.AddHours(3),
             UpdatedAt = DateTime.UtcNow.AddHours(3),
-            Founders = new List<Founder>() // создаём связь
+            Founders = new List<Founder>() 
         };
 
         _context.Clients.Add(client);
-        await _context.SaveChangesAsync(); // получаем client.Id
+        await _context.SaveChangesAsync(); 
 
         freeFounder.ClientId = client.Id;
         freeFounder.UpdatedAt = DateTime.UtcNow.AddHours(3);
 
-        await _context.SaveChangesAsync(); // обновляем founder
+        await _context.SaveChangesAsync(); 
 
         return CreatedAtAction(nameof(GetById), new { id = client.Id }, client);
     }
@@ -87,16 +88,16 @@ public class ClientsController : ControllerBase
         if (client == null)
             return NotFound("Клиент не найден.");
 
-        // Обновляем поля
+        
         client.Name = updated.Name;
         client.INN = updated.INN;
 
-        // Если тип меняется
+       
         if (client.Type != updated.Type)
         {
             client.Type = updated.Type;
 
-            // Оставляем только первого учредителя, остальных освобождаем
+           
             var keepFounder = client.Founders.FirstOrDefault();
             var removedFounders = client.Founders
                 .Where(f => f != keepFounder)
@@ -113,7 +114,7 @@ public class ClientsController : ControllerBase
                 : new List<Founder>();
         }
 
-        // Обновляем время обновления
+        
         client.UpdatedAt = DateTime.UtcNow.AddHours(3);
 
         await _context.SaveChangesAsync();
@@ -131,7 +132,7 @@ public class ClientsController : ControllerBase
         if (client == null)
             return NotFound();
 
-        // Удаляем связь с учредителями (а не их самих)
+        
         foreach (var founder in client.Founders)
         {
             founder.ClientId = null;
@@ -157,7 +158,7 @@ public class ClientsController : ControllerBase
         if (founder.ClientId != 0 && founder.Client != null)
             return BadRequest("Этот учредитель уже привязан к клиенту.");
 
-        // Создаем нового клиента
+       
         var client = new Client
         {
             INN = dto.INN,
@@ -168,7 +169,7 @@ public class ClientsController : ControllerBase
             Founders = new List<Founder> { founder }
         };
 
-        // Привязываем клиента к учредителю
+        
         founder.Client = client;
         founder.UpdatedAt = DateTime.UtcNow.AddHours(3);
 

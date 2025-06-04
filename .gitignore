@@ -28,10 +28,19 @@ artifacts/
 ## ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
-## Docker
-**/Dockerfile.*
-docker-compose*.yml
+
+docker-compose.override.yml
 .env
+
+appsettings.Development.json
+appsettings.*.json
+
+Properties/launchSettings.json
+
+
+
+
+
 
 ## EF Migrations (optional)
 Migrations/
